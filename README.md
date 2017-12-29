@@ -1,5 +1,4 @@
 # Applicant Program
 
-    *To Do*
-
-    - [ ] Create Workbook object
+*To Do*
+- [ ] Create Workbook object
