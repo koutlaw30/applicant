@@ -8,10 +8,52 @@ import openpyxl
 from openpyxl.styles import colors
 from openpyxl.styles import Font, Color
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+from openpyxl.styles.borders import Border, Side
 import PyPDF2
 import re
 import pyperclip
 import os
+#import win32.com.client as win32
+
+
+##def  sendemail():
+##        outlook = win32Dispatch(
+##        'outlook.application')
+##        mail = outlook.CreateItem(0)
+##        mailing_list = []
+##
+##        mail.To = 'koutlaw30@gmail.com'
+##        mail.Subject = 'Survey of Interest - WSMC - ' + str(myjobtitle.get())  ' - ' + str(myseries.get()) ' - ' + str(mycert.get())
+##
+##        mail.Body = "Good Morning,"
+##        "This email is being sent as a survey of interest to fill the position of "
+##        + str(myjobtitle.get()) ' - ' + str(myseries.get()) ", within the Weapon"
+##        "Systems Management Center. Your name has been received on a certificate of"
+##        "eligible candidates for this position." & vbNewLine & vbNewLine _
+##        "Please reply to this email with your response, by " str(mytime.get()) " Eastern Standard"
+##        "Time (EST) on " & str(myduedate()) " stating if you wish or do not wish to be further"
+##        "considered  for this position. Negative responses are requested."
+##        "If you would like verification that your response was received, please use"
+##        "the 'Read Receipt' option."
+##        "Thank you in advance."
+##        "v/r"
+##        "Kimberly Hamblen"
+##        "Marine Corps Logistics Command"
+##        "Weapon Systems Management Center"
+##        "Center Operations Division, Albany, GA"
+##        "229-639-9958"
+##
+##        "Kendall"
+##        attachment = r"Real path to file."
+##
+##        mail.Attachments.Add(Source
+##                              =attatchment.format(os.getcwd()
+##                                ,'file name'))
+##        mail.Send()
+##        
+##        messagebox.showinfo("Send Email", "The email has been sent")
+
+
 
 
 
@@ -62,8 +104,9 @@ def addapplicants():
          applicantlistbox.insert(0, myapplicant.get())
 
          
-def createworksheets():
+def scoresheets():
         z = StringVar()
+        y = StringVar()
         wb = openpyxl.load_workbook('My Name Application.xlsx')
         #ws2 = wb.create_sheet(str((applicantlistbox.get(applicantlistbox.curselection()))))
         #wb[(str((applicantlistbox.get(applicantlistbox.curselection()))))]['A1'] = "INDIVIDUAL SCORE SHEET"
@@ -71,73 +114,18 @@ def createworksheets():
             for y, listbox_entry in enumerate(panellistbox.get(0, END)):
             #If NumberofInterviewQuestions.Value = 6 Then
 
-                """Your old method
-                # ws2 = wb.create_sheet(str((applicantlistbox.get(z) + " " + str(ffint.get()))))
-                
-                #Applying Font to all Worksheets
-                a1 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A1']
-                ft = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].font = Font(name='Arial', size=12, bold = True)
-                ft1 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].font = Font(name='Arial', bold = True)
-                a1.font = ft
-                a9 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A9']
-                a12 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A12']
-                a15 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A15']
-                a18 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A18']
-                a21 = wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A21']
-                a9.font = ft1
-                a12.font = ft1
-                a15.font = ft1
-                a18.font = ft1
-                a21.font = ft1
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A1'] = "INDIVIDUAL SCORE SHEET"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A2'] = "RPA: " + str(myrpa.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A4'] = "Applicant’s Name: " + str((applicantlistbox.get(z)))
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A6'] = "Panel Member’s Name: " + str(panel_member1.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A8'] = "Individual Application Scores"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A9'] = "Max- " + str(maxscore.get()) 
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A11'] = "A. Experience"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A12'] = "Max- " + str(experience.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A14'] = "B. Education"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A15'] = "Max- " + str(education.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A17'] = "C. Training"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A18'] = "Max- " + str(training.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A20'] = "D. Awards"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A21'] = "Max- " + str(awards.get())
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))]['A24'] = "Total Application Points"
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].merge_cells('A1:G1', 'A2:F1')
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].row_dimensions[1].height = 20
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].row_dimensions[2].height = 18
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].row_dimensions[3].height = 18
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].row_dimensions[4].height = 15
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].row_dimensions[5-57].height = 15.75
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['A'].width = 30.86
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['B'].width = 6.57
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['C'].width = 8.43
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['D'].width = 8.57
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['E'].width = 15.29
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['F'].width = 19
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].column_dimensions['G'].width = 21.7
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.PrintArea = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.LeftHeader = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.CenterHeader = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.RightHeader = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.LeftFooter = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.CenterFooter = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.RightFooter = ""
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.FitToPagesWide = 1
-                wb[(str((applicantlistbox.get(z)+ " " + str(ffint.get()))))].page_setup.FitToPagesTall = 1
-                """
-
+  
 
 
                 # new method
-                formatted_name = f'''{applicantlistbox.get(z).split(', ')[0]} {applicantlistbox.get(z).split(', ')[1][0]} {panellistbox.get(y).split(' ')[0][0]} {panellistbox.get(y).split(' ')[1][0]}'''
+                formatted_name = f'''{applicantlistbox.get(z).split(', ')[0]} {applicantlistbox.get(z).split(', ')[1][0]} {panellistbox.get(y).split(' ')[0][0]} {panellistbox.get(y).split(' ')[1][0]}''' + " Score"
                 ws2 = wb.create_sheet(formatted_name)
-
                 a1 = wb[formatted_name]['A1']
                 ft = wb[formatted_name].font = Font(name='Arial', size=12, bold=True)
                 ft1 = wb[formatted_name].font = Font(name='Arial', bold=True)
                 a1.font = ft
+                a1 = wb[formatted_name]['A1'].alignment = Alignment(horizontal='center')
+                a2 = wb[formatted_name]['A2'].alignment = Alignment(horizontal='center')
                 a9 = wb[formatted_name]['A9']
                 a12 = wb[formatted_name]['A12']
                 a15 = wb[formatted_name]['A15']
@@ -165,7 +153,7 @@ def createworksheets():
                 wb[formatted_name]['A20'] = "D. Awards"
                 wb[formatted_name]['A21'] = "Max- " + str(awards.get())
                 wb[formatted_name]['A24'] = "Total Application Points"
-                wb[formatted_name].merge_cells('A1:G1', 'A2:F1')
+                wb[formatted_name].merge_cells('A1:G1')
                 wb[formatted_name].row_dimensions[1].height = 20
                 wb[formatted_name].row_dimensions[2].height = 18
                 wb[formatted_name].row_dimensions[3].height = 18
@@ -178,6 +166,12 @@ def createworksheets():
                 wb[formatted_name].column_dimensions['E'].width = 15.29
                 wb[formatted_name].column_dimensions['F'].width = 19
                 wb[formatted_name].column_dimensions['G'].width = 21.7
+                thin_border = Border(bottom=Side(style='thin')) 
+                wb[formatted_name]['A9'].border = thin_border
+                wb[formatted_name]['A12'].border = thin_border
+                wb[formatted_name]['A15'].border = thin_border
+                wb[formatted_name]['A18'].border = thin_border
+                wb[formatted_name]['A21'].border = thin_border
                 wb[formatted_name].page_setup.PrintArea = ""
                 wb[formatted_name].page_setup.LeftHeader = ""
                 wb[formatted_name].page_setup.CenterHeader = ""
@@ -187,10 +181,548 @@ def createworksheets():
                 wb[formatted_name].page_setup.RightFooter = ""
                 wb[formatted_name].page_setup.FitToPagesWide = 1
                 wb[formatted_name].page_setup.FitToPagesTall = 1
-
-        #ws2 = wb.create_sheet(str((applicantlistbox.get(z))) + " 1 Score Sheet PM " + ffint.get() + " " & flint.get())
+                wb[formatted_name].page_setup.LeftMargin = 0.75
+                wb[formatted_name].page_setup.RightMargin = 0.75
+                wb[formatted_name].page_setup.TopMargin = .25
+                wb[formatted_name].page_setup.BottomMargin = .25
+                wb[formatted_name].page_setup.HeaderMargin = 0.5
+                wb[formatted_name].page_setup.FooterMargin = 0.5
+                wb[formatted_name].page_setup.fitToPage = True
         wb.save('My Name Application.xlsx')
         messagebox.showinfo("Update Spreadsheet", "The spreadsheet has been updated")
+
+
+def WorksheetNotes():
+        z = StringVar()
+        y = StringVar()
+        wb = openpyxl.load_workbook('My Name Application.xlsx')
+        for z, listbox_entry in enumerate(applicantlistbox.get(0, END)):
+            for y, listbox_entry in enumerate(panellistbox.get(0, END)):
+                formatted_name = f'''{applicantlistbox.get(z).split(', ')[0]} {applicantlistbox.get(z).split(', ')[1][0]} {panellistbox.get(y).split(' ')[0][0]} {panellistbox.get(y).split(' ')[1][0]}''' + " S Notes"
+                ws2 = wb.create_sheet(formatted_name)
+                wb[formatted_name]['A1'] = "INDIVIDUAL SCORE SHEET NOTES"
+                wb[formatted_name]['A2'] = "RPA: " + str(myrpa.get()) + str(myjobtitle.get()) + " - " + str(myseries.get())
+                wb[formatted_name]['A4'] = "Applicant’s Name: " + str(
+                    (applicantlistbox.get(z)))
+                wb[formatted_name]['A5'] = "Panel Member’s Name: " + str(
+                    (panellistbox.get(y)))
+                wb[formatted_name]['A7'] = "Experience:"
+                wb[formatted_name]['A27'] = "Education:"
+                wb[formatted_name]['A31'] = "Training:"
+                wb[formatted_name]['A35'] = "Awards:"
+                wb[formatted_name]['A39'] = "Please do not write on the back. Only use paper that is provided – NOT notebook paper. If additional paper is required, contact admin POC. Thank you!"
+                wb[formatted_name].row_dimensions[1].height = 19.5
+                wb[formatted_name].row_dimensions[2].height = 17.25
+                wb[formatted_name].row_dimensions[3].height = 12.75
+                wb[formatted_name].row_dimensions[4].height = 15.75
+                wb[formatted_name].row_dimensions[5].height = 15.75
+                wb[formatted_name].row_dimensions[6].height = 15.75
+                wb[formatted_name].row_dimensions[7].height = 16.75
+                wb[formatted_name].row_dimensions[8].height = 16.75
+                wb[formatted_name].row_dimensions[9].height = 16.75
+                wb[formatted_name].row_dimensions[10].height = 16.75
+                wb[formatted_name].row_dimensions[11].height = 16.75
+                wb[formatted_name].row_dimensions[12].height = 16.75
+                wb[formatted_name].row_dimensions[13].height = 16.75
+                wb[formatted_name].row_dimensions[14].height = 16.75
+                wb[formatted_name].row_dimensions[15].height = 16.75
+                wb[formatted_name].row_dimensions[16].height = 16.75
+                wb[formatted_name].row_dimensions[17].height = 16.75
+                wb[formatted_name].row_dimensions[18].height = 16.75
+                wb[formatted_name].row_dimensions[19].height = 16.75
+                wb[formatted_name].row_dimensions[20].height = 16.75
+                wb[formatted_name].row_dimensions[21].height = 16.75
+                wb[formatted_name].row_dimensions[22].height = 16.75
+                wb[formatted_name].row_dimensions[23].height = 16.75
+                wb[formatted_name].row_dimensions[24].height = 16.75
+                wb[formatted_name].row_dimensions[25].height = 16.75
+                wb[formatted_name].row_dimensions[26].height = 16.75
+                wb[formatted_name].row_dimensions[27].height = 16.75
+                wb[formatted_name].row_dimensions[28].height = 16.75
+                wb[formatted_name].row_dimensions[29].height = 16.75
+                wb[formatted_name].row_dimensions[30].height = 16.75
+                wb[formatted_name].row_dimensions[31].height = 16.75
+                wb[formatted_name].row_dimensions[32].height = 16.75
+                wb[formatted_name].row_dimensions[33].height = 16.75
+                wb[formatted_name].row_dimensions[34].height = 16.75
+                wb[formatted_name].row_dimensions[35].height = 16.75
+                wb[formatted_name].row_dimensions[36].height = 16.75            
+                wb[formatted_name].row_dimensions[37].height = 16.75
+                wb[formatted_name].row_dimensions[38].height = 16.75
+                wb[formatted_name].row_dimensions[39].height = 47.25
+                wb[formatted_name].column_dimensions['A'].width = 20
+                wb[formatted_name].column_dimensions['B'].width = 5.86
+                wb[formatted_name].column_dimensions['C'].width = 7.71
+                wb[formatted_name].column_dimensions['D'].width = 7.86
+                wb[formatted_name].column_dimensions['E'].width = 9.86
+                wb[formatted_name].column_dimensions['F'].width = 10.14
+                wb[formatted_name].column_dimensions['G'].width = 27
+                a1 = wb[formatted_name]['A1']
+                ft = wb[formatted_name].font = Font(name='Calibri', size=14, bold=True)
+                ft1 = wb[formatted_name].font = Font(name='Arial', size=12, bold=True)
+                a1.font = ft
+                wb[formatted_name].merge_cells('A1:G1')
+                wb[formatted_name].merge_cells('A2:G2')
+                wb[formatted_name].merge_cells('A39:G39')
+                a2 = wb[formatted_name]['A2']
+                a2.font = ft
+                a4 = wb[formatted_name]['A4']
+                a5 = wb[formatted_name]['A5']
+                b4 = wb[formatted_name]['B4']
+                c4 = wb[formatted_name]['C4']
+                d4 = wb[formatted_name]['D4']
+                e4 = wb[formatted_name]['E4']
+                f4 = wb[formatted_name]['F4']
+                g4 = wb[formatted_name]['G4']
+                a7 = wb[formatted_name]['A7']
+                a8 = wb[formatted_name]['A8']
+                a9 = wb[formatted_name]['A9']
+                thin_border = Border(bottom=Side(style='thin')) 
+                wb[formatted_name]['A7'].border = thin_border
+                wb[formatted_name]['B7'].border = thin_border
+                wb[formatted_name]['C7'].border = thin_border
+                wb[formatted_name]['D7'].border = thin_border
+                wb[formatted_name]['E7'].border = thin_border
+                wb[formatted_name]['F7'].border = thin_border
+                wb[formatted_name]['G7'].border = thin_border
+                wb[formatted_name]['A8'].border = thin_border
+                wb[formatted_name]['B8'].border = thin_border
+                wb[formatted_name]['C8'].border = thin_border
+                wb[formatted_name]['D8'].border = thin_border
+                wb[formatted_name]['E8'].border = thin_border
+                wb[formatted_name]['F8'].border = thin_border
+                wb[formatted_name]['G8'].border = thin_border
+                wb[formatted_name]['A9'].border = thin_border
+                wb[formatted_name]['B9'].border = thin_border
+                wb[formatted_name]['C9'].border = thin_border
+                wb[formatted_name]['D9'].border = thin_border
+                wb[formatted_name]['E9'].border = thin_border
+                wb[formatted_name]['F9'].border = thin_border
+                wb[formatted_name]['G9'].border = thin_border
+                wb[formatted_name]['A10'].border = thin_border
+                wb[formatted_name]['B10'].border = thin_border
+                wb[formatted_name]['C10'].border = thin_border
+                wb[formatted_name]['D10'].border = thin_border
+                wb[formatted_name]['E10'].border = thin_border
+                wb[formatted_name]['F10'].border = thin_border
+                wb[formatted_name]['G10'].border = thin_border
+                wb[formatted_name]['A11'].border = thin_border
+                wb[formatted_name]['B11'].border = thin_border
+                wb[formatted_name]['C11'].border = thin_border
+                wb[formatted_name]['D11'].border = thin_border
+                wb[formatted_name]['E11'].border = thin_border
+                wb[formatted_name]['F11'].border = thin_border
+                wb[formatted_name]['G11'].border = thin_border
+                wb[formatted_name]['A12'].border = thin_border
+                wb[formatted_name]['B12'].border = thin_border
+                wb[formatted_name]['C12'].border = thin_border
+                wb[formatted_name]['D12'].border = thin_border
+                wb[formatted_name]['E12'].border = thin_border
+                wb[formatted_name]['F12'].border = thin_border
+                wb[formatted_name]['G12'].border = thin_border
+                wb[formatted_name]['A13'].border = thin_border
+                wb[formatted_name]['B13'].border = thin_border
+                wb[formatted_name]['C13'].border = thin_border
+                wb[formatted_name]['D13'].border = thin_border
+                wb[formatted_name]['E13'].border = thin_border
+                wb[formatted_name]['F13'].border = thin_border
+                wb[formatted_name]['G13'].border = thin_border
+                wb[formatted_name]['A14'].border = thin_border
+                wb[formatted_name]['B14'].border = thin_border
+                wb[formatted_name]['C14'].border = thin_border
+                wb[formatted_name]['D14'].border = thin_border
+                wb[formatted_name]['E14'].border = thin_border
+                wb[formatted_name]['F14'].border = thin_border
+                wb[formatted_name]['G14'].border = thin_border
+                wb[formatted_name]['A15'].border = thin_border
+                wb[formatted_name]['B15'].border = thin_border
+                wb[formatted_name]['C15'].border = thin_border
+                wb[formatted_name]['D15'].border = thin_border
+                wb[formatted_name]['E15'].border = thin_border
+                wb[formatted_name]['F15'].border = thin_border
+                wb[formatted_name]['G15'].border = thin_border
+                wb[formatted_name]['A16'].border = thin_border
+                wb[formatted_name]['B16'].border = thin_border
+                wb[formatted_name]['C16'].border = thin_border
+                wb[formatted_name]['D16'].border = thin_border
+                wb[formatted_name]['E16'].border = thin_border
+                wb[formatted_name]['F16'].border = thin_border
+                wb[formatted_name]['G16'].border = thin_border
+                wb[formatted_name]['A17'].border = thin_border
+                wb[formatted_name]['B17'].border = thin_border
+                wb[formatted_name]['C17'].border = thin_border
+                wb[formatted_name]['D17'].border = thin_border
+                wb[formatted_name]['E17'].border = thin_border
+                wb[formatted_name]['F17'].border = thin_border
+                wb[formatted_name]['G17'].border = thin_border
+                wb[formatted_name]['A18'].border = thin_border
+                wb[formatted_name]['B18'].border = thin_border
+                wb[formatted_name]['C18'].border = thin_border
+                wb[formatted_name]['D18'].border = thin_border
+                wb[formatted_name]['E18'].border = thin_border
+                wb[formatted_name]['F18'].border = thin_border
+                wb[formatted_name]['G18'].border = thin_border
+                wb[formatted_name]['A19'].border = thin_border
+                wb[formatted_name]['B19'].border = thin_border
+                wb[formatted_name]['C19'].border = thin_border
+                wb[formatted_name]['D19'].border = thin_border
+                wb[formatted_name]['E19'].border = thin_border
+                wb[formatted_name]['F19'].border = thin_border
+                wb[formatted_name]['G19'].border = thin_border
+                wb[formatted_name]['A20'].border = thin_border
+                wb[formatted_name]['B20'].border = thin_border
+                wb[formatted_name]['C20'].border = thin_border
+                wb[formatted_name]['D20'].border = thin_border
+                wb[formatted_name]['E20'].border = thin_border
+                wb[formatted_name]['F20'].border = thin_border
+                wb[formatted_name]['G20'].border = thin_border
+                wb[formatted_name]['A21'].border = thin_border
+                wb[formatted_name]['B21'].border = thin_border
+                wb[formatted_name]['C21'].border = thin_border
+                wb[formatted_name]['D21'].border = thin_border
+                wb[formatted_name]['E21'].border = thin_border
+                wb[formatted_name]['F21'].border = thin_border
+                wb[formatted_name]['G21'].border = thin_border
+                wb[formatted_name]['A22'].border = thin_border
+                wb[formatted_name]['B22'].border = thin_border
+                wb[formatted_name]['C22'].border = thin_border
+                wb[formatted_name]['D22'].border = thin_border
+                wb[formatted_name]['E22'].border = thin_border
+                wb[formatted_name]['F22'].border = thin_border
+                wb[formatted_name]['G22'].border = thin_border
+                wb[formatted_name]['A23'].border = thin_border
+                wb[formatted_name]['B23'].border = thin_border
+                wb[formatted_name]['C23'].border = thin_border
+                wb[formatted_name]['D23'].border = thin_border
+                wb[formatted_name]['E23'].border = thin_border
+                wb[formatted_name]['F23'].border = thin_border
+                wb[formatted_name]['G23'].border = thin_border
+                wb[formatted_name]['A24'].border = thin_border
+                wb[formatted_name]['B24'].border = thin_border
+                wb[formatted_name]['C24'].border = thin_border
+                wb[formatted_name]['D24'].border = thin_border
+                wb[formatted_name]['E24'].border = thin_border
+                wb[formatted_name]['F24'].border = thin_border
+                wb[formatted_name]['G24'].border = thin_border
+                wb[formatted_name]['A25'].border = thin_border
+                wb[formatted_name]['B25'].border = thin_border
+                wb[formatted_name]['C25'].border = thin_border
+                wb[formatted_name]['D25'].border = thin_border
+                wb[formatted_name]['E25'].border = thin_border
+                wb[formatted_name]['F25'].border = thin_border
+                wb[formatted_name]['G25'].border = thin_border
+                wb[formatted_name]['A26'].border = thin_border
+                wb[formatted_name]['B26'].border = thin_border
+                wb[formatted_name]['C26'].border = thin_border
+                wb[formatted_name]['D26'].border = thin_border
+                wb[formatted_name]['E26'].border = thin_border
+                wb[formatted_name]['F26'].border = thin_border
+                wb[formatted_name]['G26'].border = thin_border
+                wb[formatted_name]['A27'].border = thin_border
+                wb[formatted_name]['B27'].border = thin_border
+                wb[formatted_name]['C27'].border = thin_border
+                wb[formatted_name]['D27'].border = thin_border
+                wb[formatted_name]['E27'].border = thin_border
+                wb[formatted_name]['F27'].border = thin_border
+                wb[formatted_name]['G27'].border = thin_border
+                wb[formatted_name]['A28'].border = thin_border
+                wb[formatted_name]['B28'].border = thin_border
+                wb[formatted_name]['C28'].border = thin_border
+                wb[formatted_name]['D28'].border = thin_border
+                wb[formatted_name]['E28'].border = thin_border
+                wb[formatted_name]['F28'].border = thin_border
+                wb[formatted_name]['G28'].border = thin_border
+                wb[formatted_name]['A29'].border = thin_border
+                wb[formatted_name]['B29'].border = thin_border
+                wb[formatted_name]['C29'].border = thin_border
+                wb[formatted_name]['D29'].border = thin_border
+                wb[formatted_name]['E29'].border = thin_border
+                wb[formatted_name]['F29'].border = thin_border
+                wb[formatted_name]['G29'].border = thin_border
+                wb[formatted_name]['A30'].border = thin_border
+                wb[formatted_name]['B30'].border = thin_border
+                wb[formatted_name]['C30'].border = thin_border
+                wb[formatted_name]['D30'].border = thin_border
+                wb[formatted_name]['E30'].border = thin_border
+                wb[formatted_name]['F30'].border = thin_border
+                wb[formatted_name]['G30'].border = thin_border
+                wb[formatted_name]['A31'].border = thin_border
+                wb[formatted_name]['B31'].border = thin_border
+                wb[formatted_name]['C31'].border = thin_border
+                wb[formatted_name]['D31'].border = thin_border
+                wb[formatted_name]['E31'].border = thin_border
+                wb[formatted_name]['F31'].border = thin_border
+                wb[formatted_name]['G31'].border = thin_border
+                wb[formatted_name]['A32'].border = thin_border
+                wb[formatted_name]['B32'].border = thin_border
+                wb[formatted_name]['C32'].border = thin_border
+                wb[formatted_name]['D32'].border = thin_border
+                wb[formatted_name]['E32'].border = thin_border
+                wb[formatted_name]['F32'].border = thin_border
+                wb[formatted_name]['G32'].border = thin_border
+                wb[formatted_name]['A33'].border = thin_border
+                wb[formatted_name]['B33'].border = thin_border
+                wb[formatted_name]['C33'].border = thin_border
+                wb[formatted_name]['D33'].border = thin_border
+                wb[formatted_name]['E33'].border = thin_border
+                wb[formatted_name]['F33'].border = thin_border
+                wb[formatted_name]['G33'].border = thin_border
+                wb[formatted_name]['A34'].border = thin_border
+                wb[formatted_name]['B34'].border = thin_border
+                wb[formatted_name]['C34'].border = thin_border
+                wb[formatted_name]['D34'].border = thin_border
+                wb[formatted_name]['E34'].border = thin_border
+                wb[formatted_name]['F34'].border = thin_border
+                wb[formatted_name]['G34'].border = thin_border
+                wb[formatted_name]['A35'].border = thin_border
+                wb[formatted_name]['B35'].border = thin_border
+                wb[formatted_name]['C35'].border = thin_border
+                wb[formatted_name]['D35'].border = thin_border
+                wb[formatted_name]['E35'].border = thin_border
+                wb[formatted_name]['F35'].border = thin_border
+                wb[formatted_name]['G35'].border = thin_border
+                wb[formatted_name]['A36'].border = thin_border
+                wb[formatted_name]['B36'].border = thin_border
+                wb[formatted_name]['C36'].border = thin_border
+                wb[formatted_name]['D36'].border = thin_border
+                wb[formatted_name]['E36'].border = thin_border
+                wb[formatted_name]['F36'].border = thin_border
+                wb[formatted_name]['G36'].border = thin_border
+                wb[formatted_name]['A37'].border = thin_border
+                wb[formatted_name]['B37'].border = thin_border
+                wb[formatted_name]['C37'].border = thin_border
+                wb[formatted_name]['D37'].border = thin_border
+                wb[formatted_name]['E37'].border = thin_border
+                wb[formatted_name]['F37'].border = thin_border
+                wb[formatted_name]['G37'].border = thin_border
+                wb[formatted_name]['A38'].border = thin_border
+                wb[formatted_name]['B38'].border = thin_border
+                wb[formatted_name]['C38'].border = thin_border
+                wb[formatted_name]['D38'].border = thin_border
+                wb[formatted_name]['E38'].border = thin_border
+                wb[formatted_name]['F38'].border = thin_border
+                wb[formatted_name]['G38'].border = thin_border
+                a10 = wb[formatted_name]['A10']
+                a11 = wb[formatted_name]['A11']
+                a12 = wb[formatted_name]['A12']
+                a13 = wb[formatted_name]['A13']
+                a14 = wb[formatted_name]['A14']
+                a15 = wb[formatted_name]['A15']
+                a16 = wb[formatted_name]['A16']
+                a17 = wb[formatted_name]['A17']
+                a18 = wb[formatted_name]['A18']
+                a19 = wb[formatted_name]['A19']
+                a20 = wb[formatted_name]['A20']
+                a21 = wb[formatted_name]['A21']
+                a22 = wb[formatted_name]['A22']
+                a23 = wb[formatted_name]['A23']
+                a24 = wb[formatted_name]['A24']
+                a25 = wb[formatted_name]['A25']
+                a26 = wb[formatted_name]['A26']
+                a27 = wb[formatted_name]['A27']
+                a28 = wb[formatted_name]['A28']
+                a29 = wb[formatted_name]['A29']
+                a30 = wb[formatted_name]['A30']
+                a31 = wb[formatted_name]['A31']
+                a32 = wb[formatted_name]['A32']
+                a33 = wb[formatted_name]['A33']
+                a34 = wb[formatted_name]['A34']
+                a35 = wb[formatted_name]['A35']
+                a1 = wb[formatted_name]['A1'].alignment = Alignment(horizontal='center')
+                a2 = wb[formatted_name]['A2'].alignment = Alignment(horizontal='center')
+                a4.font = ft
+                a5.font = ft
+                b4.font = ft
+                c4.font = ft
+                d4.font = ft
+                e4.font = ft
+                f4.font = ft
+                g4.font = ft
+                a7.font = ft1
+                a8.font = ft1
+                a9.font = ft1
+                a10.font = ft1
+                a11.font = ft1
+                a12.font = ft1
+                a13.font = ft1
+                a14.font = ft1
+                a15.font = ft1
+                a16.font = ft1
+                a17.font = ft1
+                a18.font = ft1
+                a19.font = ft1
+                a20.font = ft1
+                a21.font = ft1
+                a22.font = ft1
+                a23.font = ft1
+                a24.font = ft1
+                a25.font = ft1
+                a26.font = ft1
+                a27.font = ft1
+                a28.font = ft1
+                a29.font = ft1
+                a30.font = ft1
+                a31.font = ft1
+                a32.font = ft1
+                a33.font = ft1
+                a34.font = ft1
+                a35.font = ft1
+                a39 = wb[formatted_name]['A39'].alignment = Alignment(horizontal='center')
+                a39 = wb[formatted_name]['A39'].alignment = Alignment(wrapText=True)
+                wb[formatted_name].page_setup.PrintArea = ""
+                wb[formatted_name].page_setup.LeftHeader = ""
+                wb[formatted_name].page_setup.CenterHeader = ""
+                wb[formatted_name].page_setup.RightHeader = ""
+                wb[formatted_name].page_setup.LeftFooter = ""
+                wb[formatted_name].page_setup.CenterFooter = ""
+                wb[formatted_name].page_setup.RightFooter = ""
+                wb[formatted_name].page_setup.FitToPagesWide = .5
+                wb[formatted_name].page_setup.FitToPagesTall = .5
+                wb[formatted_name].page_setup.CenterHorizontally = True
+                wb[formatted_name].page_setup.CenterVertically = True
+                wb[formatted_name].page_setup.LeftMargin = 0.75
+                wb[formatted_name].page_setup.RightMargin = 0.75
+                wb[formatted_name].page_setup.TopMargin = .25
+                wb[formatted_name].page_setup.BottomMargin = .25
+                wb[formatted_name].page_setup.HeaderMargin = 0.5
+                wb[formatted_name].page_setup.FooterMargin = 0.5
+                wb[formatted_name].page_setup.fitToPage = True
+        wb.save('My Name Application.xlsx')
+        messagebox.showinfo("Update Spreadsheet", "The spreadsheet has been updated")
+
+
+def InterviewNotes():
+        z = StringVar()
+        y = StringVar()
+        wb = openpyxl.load_workbook('My Name Application.xlsx')
+        for z, listbox_entry in enumerate(applicantlistbox.get(0, END)):
+            for y, listbox_entry in enumerate(panellistbox.get(0, END)):
+                formatted_name = f'''{applicantlistbox.get(z).split(', ')[0]} {applicantlistbox.get(z).split(', ')[1][0]} {panellistbox.get(y).split(' ')[0][0]} {panellistbox.get(y).split(' ')[1][0]}''' + " I Notes"
+                ws2 = wb.create_sheet(formatted_name)
+                wb[formatted_name]['A1'] = "INDIVIDUAL INTERVIEW NOTES"
+                wb[formatted_name]['A2'] = "RPA: " + str(myrpa.get()) + str(myjobtitle.get()) + " - " + str(myseries.get())
+                wb[formatted_name]['A4'] = "Applicant’s Name: " + str(
+                    (applicantlistbox.get(z)))
+                wb[formatted_name]['A5'] = "Panel Member’s Name: " + str(
+                    (panellistbox.get(y)))
+                wb[formatted_name]['A7'] = "Question 1:"
+                wb[formatted_name]['A12'] = "Question 2:"
+                wb[formatted_name]['A17'] = "Question 3:"
+                wb[formatted_name]['A22'] = "Question 4:"
+                wb[formatted_name]['A27'] = "Question 5:"
+                wb[formatted_name]['A32'] = "Question 6:"
+                wb[formatted_name]['A39'] = "Keep with Resume, Individual Score Sheet & Individual Score Sheet Notes. Please do not write on the back. If additional paper is needed, only use printer paper!"
+                wb[formatted_name].row_dimensions[1].height = 19.5
+                wb[formatted_name].row_dimensions[2].height = 17.25
+                wb[formatted_name].row_dimensions[3].height = 12.75
+                wb[formatted_name].row_dimensions[4].height = 15.75
+                wb[formatted_name].row_dimensions[5].height = 15.75
+                wb[formatted_name].row_dimensions[6].height = 15.75
+                wb[formatted_name].row_dimensions[39].height = 47.25
+                wb[formatted_name].column_dimensions['A'].width = 17
+                wb[formatted_name].column_dimensions['B'].width = 10
+                wb[formatted_name].column_dimensions['C'].width = 10
+                wb[formatted_name].column_dimensions['D'].width = 10
+                wb[formatted_name].column_dimensions['E'].width = 10
+                wb[formatted_name].column_dimensions['F'].width = 10
+                wb[formatted_name].column_dimensions['G'].width = 28.75
+                a1 = wb[formatted_name]['A1']
+                ft = wb[formatted_name].font = Font(name='Calibri', size=12, bold=True)
+                ft1 = wb[formatted_name].font = Font(name='Arial', size=12, bold=True)
+                a1 = wb[formatted_name]['A2']
+                ft = wb[formatted_name].font = Font(name='Calibri', size=12, bold=True)
+                ft1 = wb[formatted_name].font = Font(name='Arial', size=12, bold=True)
+                a1.font = ft
+                wb[formatted_name].merge_cells('A2:G2')
+                wb[formatted_name].merge_cells('A39:G39')
+                a4 = wb[formatted_name]['A4']
+                b4 = wb[formatted_name]['B4']
+                c4 = wb[formatted_name]['C4']
+                d4 = wb[formatted_name]['D4']
+                e4 = wb[formatted_name]['E4']
+                f4 = wb[formatted_name]['F4']
+                g4 = wb[formatted_name]['G4']
+                a7 = wb[formatted_name]['A7']
+                a8 = wb[formatted_name]['A8']
+                a9 = wb[formatted_name]['A9']
+                a10 = wb[formatted_name]['A10']
+                a11 = wb[formatted_name]['A11']
+                a12 = wb[formatted_name]['A12']
+                a13 = wb[formatted_name]['A13']
+                a14 = wb[formatted_name]['A14']
+                a15 = wb[formatted_name]['A15']
+                a16 = wb[formatted_name]['A16']
+                a17 = wb[formatted_name]['A17']
+                a18 = wb[formatted_name]['A18']
+                a19 = wb[formatted_name]['A19']
+                a20 = wb[formatted_name]['A20']
+                a21 = wb[formatted_name]['A21']
+                a22 = wb[formatted_name]['A22']
+                a23 = wb[formatted_name]['A23']
+                a24 = wb[formatted_name]['A24']
+                a25 = wb[formatted_name]['A25']
+                a26 = wb[formatted_name]['A26']
+                a27 = wb[formatted_name]['A27']
+                a28 = wb[formatted_name]['A28']
+                a29 = wb[formatted_name]['A29']
+                a30 = wb[formatted_name]['A30']
+                a31 = wb[formatted_name]['A31']
+                a32 = wb[formatted_name]['A32']
+                a33 = wb[formatted_name]['A33']
+                a34 = wb[formatted_name]['A34']
+                a35 = wb[formatted_name]['A35']
+                a1 = wb[formatted_name]['A1'].alignment = Alignment(horizontal='center')
+                a2 = wb[formatted_name]['A2'].alignment = Alignment(horizontal='center')
+                a4.font = ft
+                a5.font = ft
+                b4.font = ft
+                c4.font = ft
+                d4.font = ft
+                e4.font = ft
+                f4.font = ft
+                g4.font = ft
+                a7.font = ft1
+                a8.font = ft1
+                a9.font = ft1
+                a10.font = ft1
+                a11.font = ft1
+                a12.font = ft1
+                a13.font = ft1
+                a14.font = ft1
+                a15.font = ft1
+                a16.font = ft1
+                a17.font = ft1
+                a18.font = ft1
+                a19.font = ft1
+                a20.font = ft1
+                a21.font = ft1
+                a22.font = ft1
+                a23.font = ft1
+                a24.font = ft1
+                a25.font = ft1
+                a26.font = ft1
+                a27.font = ft1
+                a28.font = ft1
+                a29.font = ft1
+                a30.font = ft1
+                a31.font = ft1
+                a32.font = ft1
+                a33.font = ft1
+                a34.font = ft1
+                a35.font = ft1
+                47.25
+                a39 = wb[formatted_name]['A39'].alignment = Alignment(horizontal='center')
+                a39 = wb[formatted_name]['A39'].alignment = Alignment(wrapText=True)
+                wb[formatted_name].page_setup.LeftMargin = 0.75
+                wb[formatted_name].page_setup.RightMargin = 0.75
+                wb[formatted_name].page_setup.TopMargin = .25
+                wb[formatted_name].page_setup.BottomMargin = .25
+                wb[formatted_name].page_setup.HeaderMargin = 0.5
+                wb[formatted_name].page_setup.FooterMargin = 0.5
+                wb[formatted_name].page_setup.fitToPage = True
+        wb.save('My Name Application.xlsx')
+        messagebox.showinfo("Update Spreadsheet", "The spreadsheet has been updated")
+
 
 
 def importpaneltextfile():
@@ -235,7 +767,7 @@ def printapplicants(evt):
 
 
 def UpdatePage2():
-        wb = openpyxl.load_workbook('Applicant Application.xlsx')
+        wb = openpyxl.load_workbook('My Name Application.xlsx')
         wb["Page 2"]['A5'] = "Position: " + str(myjobtitle.get())
         wb["Page 2"]['A6'] = "Cert# " + str(mycert.get())
         wb["Page 2"]['B8'] = "EXPERIENCE-" + str(experience.get())
@@ -247,7 +779,8 @@ def UpdatePage2():
         row_count = wb["Page 2"].max_row
         print (row_count)
         wb["Page 2"]['A' + row_count] = "SIGNATURE"
-        
+        wb.save('My Name Application.xlsx')
+        messagebox.showinfo("Update Spreadsheet", "The spreadsheet has been updated")
 
 
         
@@ -455,7 +988,7 @@ email_list_box=Listbox(page1, height=9, width=40)
 email_list_box.grid(row=2, column=1, sticky=W, pady=4)
 [email_list_box.insert(1, item) for item in (email_finder(pdf_content))]
 
-Button(page1, text='Send Email', activebackground="white", bd=3,bg="white",width=28, command=createworksheets).grid(row=3, column=4, sticky=W, pady=4)
+Button(page1, text='Send Email', activebackground="white", bd=3,bg="white",width=28).grid(row=3, column=4, sticky=W, pady=4)
 Button(page1, text='Delete Selected Email Addresses', activebackground="white", bd=3,bg="white",width=30, command=deleteselectedemails).grid(row=5, column=1, sticky=W, pady=4)
 email_entry_box = Entry(page1, textvariable=myemail, bd=3,bg="white",width=35).grid(row=6, column=1, sticky=W, pady=4)
 Button(page1, text='Add Email Addresses', activebackground="white", bd=3,bg="white",width=30, command=addemails).grid(row=7, column=1, sticky=W, pady=4)
@@ -487,7 +1020,7 @@ Button(page2, text='Delete All Applicants', activebackground="white", bd=3,bg="w
 Button(page2, text='Delete Selected Applicants', activebackground="white", bd=3,bg="white",width=20, command=deleteselectedapplicants).grid(row=2, column=4, sticky=W, pady=4)
 applicant_entry_box = Entry(page2, textvariable=myapplicant, bd=3,bg="white",width=35).grid(row=1, column=2, sticky=W, pady=4)
 Button(page2, text='Add Applicant', activebackground="white", bd=3,bg="white",width=12, command=addapplicants).grid(row=1, column=3, sticky=W, pady=4)
-Button(page2, text='Update', activebackground="white", bd=3,bg="white",width=12, command=createworksheets).grid(row=4, column=4, sticky=W, pady=4)
+Button(page2, text='Update', activebackground="white", bd=3,bg="white",width=12).grid(row=4, column=4, sticky=W, pady=4)
 
 page3 = ttk.Frame(nb)
 
@@ -608,13 +1141,13 @@ Entry1=Entry(page4, textvariable=maxinterview, bd=3,bg="white",width=7).grid(row
 
 page5 = ttk.Frame(nb)
 Button(page5, text='Create Survey Pages', activebackground="white", bd=3,bg="white",width=28).grid(row=3, column=1, sticky=W, pady=4)
-Button(page5, text='Create Individual Worksheet Notes', activebackground="white", bd=3,bg="white",width=28).grid(row=4, column=1, sticky=W, pady=4)
-Button(page5, text='Create Individual Score Worksheets', activebackground="white", bd=3,bg="white",width=28).grid(row=5, column=1, sticky=W, pady=4)
-Button(page5, text='Create Individual Interview Pages', activebackground="white", bd=3,bg="white",width=28).grid(row=6, column=1, sticky=W, pady=4)
+Button(page5, text='Create Individual Score Worksheets', activebackground="white", bd=3,bg="white",width=28, command=scoresheets).grid(row=4, column=1, sticky=W, pady=4)
+Button(page5, text='Create Individual Worksheet Notes', activebackground="white", bd=3,bg="white",width=28, command=WorksheetNotes).grid(row=5, column=1, sticky=W, pady=4)
+Button(page5, text='Create Individual Interview Pages', activebackground="white", bd=3,bg="white",width=28, command=InterviewNotes).grid(row=6, column=1, sticky=W, pady=4)
 Button(page5, text='Update Page 2', activebackground="white", bd=3,bg="white",width=28, command=UpdatePage2).grid(row=7, column=1, sticky=W, pady=4)
 
 survey_checkbox = IntVar()
-Checkbutton(page5, text="Survey_Pages", variable=survey_checkbox).grid(row=9, column=1,sticky=W)
+Checkbutton(page5, text="Survey Pages", variable=survey_checkbox).grid(row=9, column=1,sticky=W)
 score_checkbox = IntVar()
 Checkbutton(page5, text="Individual Score Sheets", variable=score_checkbox).grid(row=10, column=1,sticky=W)
 indnotes_checkbox = IntVar()
